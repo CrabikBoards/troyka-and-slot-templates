@@ -14,7 +14,7 @@ jobs:
         id: set-pcbs
         shell: bash
         run: |
-          PCB_FILES=$(find . -name "*.kicad_pcb" -not -path "*/\.*" | jq -R -s -c 'split("\n")[:-1]')
+          PCB_FILES=$(find . -name "*.kicad_pcb" -not -path "*/\.*" | sed 's/^\.\///' | jq -R -s -c 'split("\n")[:-1]')
           echo "pcb_files=$PCB_FILES" >> $GITHUB_OUTPUT
 
   render-pcb-images:
@@ -27,27 +27,26 @@ jobs:
     steps:
       - name: Check out the repo
         uses: actions/checkout@v4
+      
+      - name: Extract board name
+        id: board-name
+        shell: bash
+        run: |
+          BOARD_NAME=$(basename $(dirname "${{ matrix.pcb_file }}"))
+          echo "name=$BOARD_NAME" >> $GITHUB_OUTPUT
 
       - name: Render PCB images
         uses: linalinn/kicad-render@main
         with:
           pcb_file: ${{ matrix.pcb_file }}
-          output_path: ${{ github.workspace }}/images/${{ matrix.pcb_file }}
+          output_path: ${{ github.workspace }}/images/${{ steps.board-name.outputs.name }}
           animation: gif
-
-      - name: Create safe artifact name
-        id: safe-name
-        shell: bash
-        run: |
-          # Remove ./ prefix and replace / with - in the PCB file path
-          SAFE_NAME=$(echo "${{ matrix.pcb_file }}" | sed 's/^\.\///' | sed 's/\//-/g')
-          echo "name=pcb-images-$SAFE_NAME" >> $GITHUB_OUTPUT
 
       - name: Upload partial artifact
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ steps.safe-name.outputs.name }}
-          path: ${{ github.workspace }}/images
+          name: ${{ steps.board-name.outputs.name }}
+          path: ${{ github.workspace }}/images/${{ steps.board-name.outputs.name }}
           retention-days: 1
 
   combine-and-deploy:
