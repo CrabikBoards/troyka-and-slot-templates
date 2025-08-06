@@ -2,7 +2,15 @@
 
 This repository stores project templates for creating your own Troyka modules or base boards based on the Crabik Slot design. You can read more about Troyka modules on the [Amperka Wiki (ru)](http://wiki.amperka.ru/troyka-modules).
 
-Schematics and board designs (KiCad projects), distributed as open hardware and available under [CERN-OHL-W v2](https://ohwr.org/cern_ohl_w_v2.pdf) license.
+## PCB Text and Markings Guidelines
+
+### Font and Text Size
+- Font: "Fredoka One" (Bold) - embedded in PCB files
+- Standard text size: 1.1 mm
+
+### Logos and DataMatrix
+- Recommended logo size: 6 x 6 mm
+- DataMatrix with part number: 6 x 6 mm
 
 ## [Troyka Base Module](https://github.com/CrabikBoards/troyka-and-slot-templates/tree/main/troyka-base-module)
 
@@ -27,3 +35,9 @@ Schematics and board designs (KiCad projects), distributed as open hardware and 
 ## [Crabik Slot Main board](https://github.com/CrabikBoards/troyka-and-slot-templates/tree/main/crabik-slot-template)
 
 ![Crabik Slot](https://crabikboards.github.io/troyka-and-slot-templates/crabik-slot-template/rotating.gif)
+
+## Licenses
+
+Schematics and board designs (KiCad projects), distributed as open hardware and available under [CERN-OHL-W v2](https://ohwr.org/cern_ohl_w_v2.pdf) license.
+
+The Fredoka One font embedded in PCB files is licensed under the [SIL Open Font License, Version 1.1](https://openfontlicense.org). Copyright 2016 The Fredoka Project Authors ([https://github.com/hafontia/Fredoka-One](https://github.com/hafontia/Fredoka-One)).
