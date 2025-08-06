@@ -41,7 +41,8 @@ jobs:
           pcb_file: ${{ matrix.pcb_file }}
           output_path: ${{ github.workspace }}/images/${{ steps.board-name.outputs.name }}
           animation: gif
-          kicad_cli_options: "--preset Default"
+          pre_render: .github/workflows/pre-render.sh
+          kicad_cli_options: " --preset Default"
 
       - name: Upload partial artifact
         uses: actions/upload-artifact@v4
