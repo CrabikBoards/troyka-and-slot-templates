@@ -36,13 +36,13 @@ jobs:
           echo "name=$BOARD_NAME" >> $GITHUB_OUTPUT
 
       - name: Render PCB images
-        uses: linalinn/kicad-render@v0.3
-        with:
-          pcb_file: ${{ matrix.pcb_file }}
-          output_path: ${{ github.workspace }}/images/${{ steps.board-name.outputs.name }}
-          animation: gif
-          pre_render: .github/workflows/pre-render.sh
-          kicad_cli_options: " --preset Default"
+        run: |
+          docker run --rm -v ${{ github.workspace }}:/pwd \
+            -v ${{ github.workspace }}/scripts/kicad_animation.sh:/usr/bin/kicad_animation.sh \
+            ghcr.io/linalinn/kicad-render:9 \
+            bash -c "chmod +x /usr/bin/kicad_animation.sh && kicad_animation.sh gif \
+            '${{ matrix.pcb_file }}' \
+            '/pwd/images/${{ steps.board-name.outputs.name }}'"
 
       - name: Upload partial artifact
         uses: actions/upload-artifact@v4
